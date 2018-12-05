@@ -16,6 +16,7 @@ if [ "$ACTION" == "up" ]; then
   ip route add $VPN_NET dev ppp0
 elif [ "$ACTION" == "down" ]; then
   VPN_NET=$(ip route|grep ppp0|grep -v 1.0.0.1|cut -d" " -f1)
+  [ -z "$VPN_NET" ] && exit
   ip route del $VPN_NET
   ip route del $VPN_SERVER_IP
   echo "d vpn" > /var/run/xl2tpd/l2tp-control
